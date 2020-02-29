@@ -80,6 +80,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EnumHelper.cs" />
     <Compile Include="FluidItemControl.xaml.cs">
       <DependentUpon>FluidItemControl.xaml</DependentUpon>
     </Compile>

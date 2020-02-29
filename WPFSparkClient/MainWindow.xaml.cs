@@ -30,34 +30,68 @@ namespace WPFSparkClient.NET46
 
         public enum AppMode
         {
+            /// <summary>
+            /// 轮圈
+            /// </summary>
+            [Description("齿轮圈控件")]
             SprocketControl,
+
+            /// <summary>
+            /// 切换开关控件
+            /// </summary>
+            [Description("切换开关控件")]
             ToggleSwitch,
+
+            /// <summary>
+            /// 自动换行面板
+            /// </summary>
+            [Description("自动换行面板")]
             FluidWrapPanel,
+
+            /// <summary>
+            /// Spark风格窗口
+            /// </summary>
+            [Description("Spark风格窗口")]
             SparkWindow,
+
+            /// <summary>
+            /// 自动导航面板
+            /// </summary>
+            [Description("动态导航面板")]
             FluidPivotPanel,
+
+            /// <summary>
+            /// 动态进度条
+            /// </summary>
+            [Description("动态进度条")]
             FluidProgressBar,
+
+            /// <summary>
+            /// 动态状态栏
+            /// </summary>
+            [Description("动态状态栏")]
             FluidStatusBar
         }
 
-        enum SplitViewMenuWidth
+        private enum SplitViewMenuWidth
         {
             Narrow = 48,
             Wide = 240
         }
 
-        #endregion
+        #endregion Enums
 
         #region Fields
 
-        Timer timer1 = new Timer(70);
-        Timer timer2 = new Timer(70);
+        private Timer timer1 = new Timer(70);
+        private Timer timer2 = new Timer(70);
 
-        bool isBGWorking = false;
-        BackgroundWorker bgWorker;
+        private bool isBGWorking = false;
+        private BackgroundWorker bgWorker;
         private Random _rnd = new Random();
         private Brush[] _brushes;
 
-        #endregion
+        #endregion Fields
 
         #region Dependency Properties
 
@@ -71,7 +105,7 @@ namespace WPFSparkClient.NET46
                 new FrameworkPropertyMetadata(AppMode.SprocketControl));
 
         /// <summary>
-        /// Gets or sets the CurrentAppMode property. This dependency property 
+        /// Gets or sets the CurrentAppMode property. This dependency property
         /// indicates the current application mode.
         /// </summary>
         public AppMode CurrentAppMode
@@ -80,9 +114,9 @@ namespace WPFSparkClient.NET46
             set { SetValue(CurrentAppModeProperty, value); }
         }
 
-        #endregion
+        #endregion CurrentAppMode
 
-        #region AppTitle
+        #region AppTitle 依赖属性各控件标题
 
         /// <summary>
         /// AppTitle Dependency Property
@@ -92,7 +126,7 @@ namespace WPFSparkClient.NET46
                 new FrameworkPropertyMetadata(string.Empty));
 
         /// <summary>
-        /// Gets or sets the AppTitle property. This dependency property 
+        /// Gets or sets the AppTitle property. This dependency property
         /// indicates the title to be displayed based on user selection.
         /// </summary>
         public string AppTitle
@@ -101,9 +135,9 @@ namespace WPFSparkClient.NET46
             set { SetValue(AppTitleProperty, value); }
         }
 
-        #endregion
+        #endregion AppTitle 依赖属性各控件标题
 
-        #endregion
+        #endregion Dependency Properties
 
         public MainWindow()
         {
@@ -185,7 +219,7 @@ namespace WPFSparkClient.NET46
             bgWorker.ProgressChanged += OnProgress;
         }
 
-        async void timer1_Elapsed(object sender, ElapsedEventArgs e)
+        private async void timer1_Elapsed(object sender, ElapsedEventArgs e)
         {
             await Dispatcher.InvokeAsync(() =>
             {
@@ -199,7 +233,7 @@ namespace WPFSparkClient.NET46
             });
         }
 
-        async void timer2_Elapsed(object sender, ElapsedEventArgs e)
+        private async void timer2_Elapsed(object sender, ElapsedEventArgs e)
         {
             await Dispatcher.InvokeAsync(() =>
             {
@@ -235,7 +269,7 @@ namespace WPFSparkClient.NET46
             });
         }
 
-        #endregion
+        #endregion SprocketControl
 
         // -------------------------------------------------------------------------------------
         // SparkWindow
@@ -258,11 +292,10 @@ namespace WPFSparkClient.NET46
                 }
             };
 
-
             win.ShowDialog();
         }
 
-        #endregion
+        #endregion SparkWindow
 
         // -------------------------------------------------------------------------------------
         // FluidWrapPanel
@@ -288,7 +321,7 @@ namespace WPFSparkClient.NET46
         }
 
         /// <summary>
-        /// Gets or sets the UseRandomChildSize property. This dependency property 
+        /// Gets or sets the UseRandomChildSize property. This dependency property
         /// indicates whether the children should be of different size or same size.
         /// </summary>
         public bool UseRandomChildSize
@@ -297,7 +330,7 @@ namespace WPFSparkClient.NET46
             set { SetValue(UseRandomChildSizeProperty, value); }
         }
 
-        #endregion
+        #endregion UseRandomChildSize
 
         private void RefreshFluidWrapPanel()
         {
@@ -333,6 +366,7 @@ namespace WPFSparkClient.NET46
                     scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                     panel.Orientation = Orientation.Horizontal;
                     break;
+
                 case "Vertical":
                     scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
                     scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
@@ -346,7 +380,7 @@ namespace WPFSparkClient.NET46
             RefreshFluidWrapPanel();
         }
 
-        #endregion
+        #endregion FluidWrapPanel
 
         // -------------------------------------------------------------------------------------
         // FluidPivotPanel
@@ -360,14 +394,14 @@ namespace WPFSparkClient.NET46
 
             public event PropertyChangedEventHandler PropertyChanged;
 
-            #endregion
+            #endregion INotifyPropertyChanged Members
 
             #region MainText
 
             private string _mainText = string.Empty;
 
             /// <summary>
-            /// Gets or sets the MainText property. This observable property 
+            /// Gets or sets the MainText property. This observable property
             /// indicates the main text.
             /// </summary>
             public string MainText
@@ -376,21 +410,23 @@ namespace WPFSparkClient.NET46
                 set
                 {
                     if (_mainText == value)
+                    {
                         return;
+                    }
 
                     _mainText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MainText)));
                 }
             }
 
-            #endregion
+            #endregion MainText
 
             #region SubText
 
             private string subText = string.Empty;
 
             /// <summary>
-            /// Gets or sets the SubText property. This observable property 
+            /// Gets or sets the SubText property. This observable property
             /// indicates the sub text.
             /// </summary>
             public string SubText
@@ -399,14 +435,16 @@ namespace WPFSparkClient.NET46
                 set
                 {
                     if (subText == value)
+                    {
                         return;
+                    }
 
                     subText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubText)));
                 }
             }
 
-            #endregion
+            #endregion SubText
         }
 
         private void InitializeFluidPivotPanel()
@@ -507,7 +545,7 @@ namespace WPFSparkClient.NET46
             RootPivotPanel.Reset();
         }
 
-        #endregion
+        #endregion FluidPivotPanel
 
         // -------------------------------------------------------------------------------------
         // FluidProgressBar
@@ -521,7 +559,7 @@ namespace WPFSparkClient.NET46
             ProgressBarB.Visibility = Visibility.Collapsed;
         }
 
-        #endregion
+        #endregion FluidProgressBar
 
         // -------------------------------------------------------------------------------------
         // FluidStatusBar
@@ -529,10 +567,12 @@ namespace WPFSparkClient.NET46
 
         #region FluidStatusBar
 
-        void DoWork(object sender, DoWorkEventArgs e)
+        private void DoWork(object sender, DoWorkEventArgs e)
         {
             if (bgWorker.CancellationPending)
+            {
                 return;
+            }
 
             StatusMessage msg = new StatusMessage("Verifying Code!", true);
             bgWorker.ReportProgress(0, msg);
@@ -540,7 +580,9 @@ namespace WPFSparkClient.NET46
             Thread.Sleep(200 + _rnd.Next(600));
 
             if (bgWorker.CancellationPending)
+            {
                 return;
+            }
 
             msg.Message = "Verifying : 10%";
             msg.IsAnimated = true;
@@ -551,7 +593,9 @@ namespace WPFSparkClient.NET46
             for (int i = 1; i < 10; i++)
             {
                 if (bgWorker.CancellationPending)
+                {
                     return;
+                }
 
                 msg.Message = String.Format("Verifying : {0}%", (i + 1) * 10);
                 msg.IsAnimated = false;
@@ -562,7 +606,9 @@ namespace WPFSparkClient.NET46
             Thread.Sleep(750);
 
             if (bgWorker.CancellationPending)
+            {
                 return;
+            }
 
             msg.Message = "Compiling Code!";
             msg.IsAnimated = true;
@@ -570,7 +616,9 @@ namespace WPFSparkClient.NET46
 
             Thread.Sleep(300 + _rnd.Next(200));
             if (bgWorker.CancellationPending)
+            {
                 return;
+            }
 
             msg.Message = "Compiling : 10%";
             msg.IsAnimated = true;
@@ -581,7 +629,9 @@ namespace WPFSparkClient.NET46
             for (int i = 1; i < 10; i++)
             {
                 if (bgWorker.CancellationPending)
+                {
                     return;
+                }
 
                 msg.Message = String.Format("Compiling : {0}%", (i + 1) * 10);
                 msg.IsAnimated = false;
@@ -592,7 +642,9 @@ namespace WPFSparkClient.NET46
             Thread.Sleep(200 + _rnd.Next(600));
 
             if (bgWorker.CancellationPending)
+            {
                 return;
+            }
 
             msg.Message = "Linking!";
             msg.IsAnimated = true;
@@ -600,7 +652,9 @@ namespace WPFSparkClient.NET46
 
             Thread.Sleep(200 + _rnd.Next(600));
             if (bgWorker.CancellationPending)
+            {
                 return;
+            }
 
             msg.Message = "Linking : 10%";
             msg.IsAnimated = true;
@@ -611,7 +665,9 @@ namespace WPFSparkClient.NET46
             for (int i = 1; i < 10; i++)
             {
                 if (bgWorker.CancellationPending)
+                {
                     return;
+                }
 
                 msg.Message = String.Format("Linking : {0}%", (i + 1) * 10);
                 msg.IsAnimated = false;
@@ -622,14 +678,16 @@ namespace WPFSparkClient.NET46
             Thread.Sleep(200 + _rnd.Next(300));
 
             if (bgWorker.CancellationPending)
+            {
                 return;
+            }
 
             msg.Message = "Build Completed!";
             msg.IsAnimated = true;
             bgWorker.ReportProgress(0, msg);
         }
 
-        void OnProgress(object sender, ProgressChangedEventArgs e)
+        private void OnProgress(object sender, ProgressChangedEventArgs e)
         {
             StatusMessage msg = e.UserState as StatusMessage;
             if (msg != null)
@@ -638,7 +696,7 @@ namespace WPFSparkClient.NET46
             }
         }
 
-        void OnWorkCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void OnWorkCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             isBGWorking = false;
             StartBtn.IsEnabled = true;
@@ -656,18 +714,21 @@ namespace WPFSparkClient.NET46
                     customStatusBar.FadeOutDuration = new Duration(TimeSpan.FromSeconds(1));
                     customStatusBar.MoveDuration = new Duration(TimeSpan.FromSeconds(0.5));
                     break;
+
                 case 2: // Up
                     customStatusBar.FadeOutDirection = StatusDirection.Up;
                     customStatusBar.FadeOutDistance = 50;
                     customStatusBar.FadeOutDuration = new Duration(TimeSpan.FromSeconds(0.75));
                     customStatusBar.MoveDuration = new Duration(TimeSpan.FromSeconds(0.35));
                     break;
+
                 case 3: // Down
                     customStatusBar.FadeOutDirection = StatusDirection.Down;
                     customStatusBar.FadeOutDistance = 50;
                     customStatusBar.FadeOutDuration = new Duration(TimeSpan.FromSeconds(0.75));
                     customStatusBar.MoveDuration = new Duration(TimeSpan.FromSeconds(0.35));
                     break;
+
                 case 0: // Left
                 default:
                     customStatusBar.FadeOutDirection = StatusDirection.Left;
@@ -699,7 +760,7 @@ namespace WPFSparkClient.NET46
             }
         }
 
-        #endregion
+        #endregion FluidStatusBar
 
         // -------------------------------------------------------------------------------------
         // SplitView Menu
@@ -715,7 +776,6 @@ namespace WPFSparkClient.NET46
             return WindowState == WindowState.Maximized
                        ? (int)SplitViewMenu.Width
                        : (int)SplitViewMenuWidth.Narrow;
-
         }
 
         private void OnMenuButtonClicked(object sender, RoutedEventArgs e)
@@ -736,12 +796,16 @@ namespace WPFSparkClient.NET46
 
             SplitViewMenu.Width = GetColumnZeroWidth();
             CurrentAppMode = AppMode.SprocketControl;
-            AppTitle = Enum.GetName(typeof (AppMode), CurrentAppMode);
+            //AppTitle = Enum.GetName(typeof(AppMode), CurrentAppMode);
+
+            //获取其描述 更加直观
+            string desc = CurrentAppMode.GetAttributeOfType<DescriptionAttribute>().Description;
+            AppTitle = desc;
         }
 
         private void OnHideSprocketControl(object sender, RoutedEventArgs e)
         {
-            // Hide the indeterminate sprocket controls so that they do not 
+            // Hide the indeterminate sprocket controls so that they do not
             // consume CPU when not visible
             sprocketControl1.Visibility = Visibility.Collapsed;
             sprocketControl2.Visibility = Visibility.Collapsed;
@@ -751,14 +815,20 @@ namespace WPFSparkClient.NET46
         {
             SplitViewMenu.Width = GetColumnZeroWidth();
             CurrentAppMode = AppMode.ToggleSwitch;
-            AppTitle = Enum.GetName(typeof (AppMode), CurrentAppMode);
+            //AppTitle = Enum.GetName(typeof(AppMode), CurrentAppMode);
+            //获取其描述 更加直观
+            string desc = CurrentAppMode.GetAttributeOfType<DescriptionAttribute>().Description;
+            AppTitle = desc;
         }
 
         private void OnFluidWrapPanel(object sender, RoutedEventArgs e)
         {
             SplitViewMenu.Width = GetColumnZeroWidth();
             CurrentAppMode = AppMode.FluidWrapPanel;
-            AppTitle = Enum.GetName(typeof (AppMode), CurrentAppMode);
+            //AppTitle = Enum.GetName(typeof(AppMode), CurrentAppMode);
+            //获取其描述 更加直观
+            string desc = CurrentAppMode.GetAttributeOfType<DescriptionAttribute>().Description;
+            AppTitle = desc;
             RefreshFluidWrapPanel();
         }
 
@@ -766,14 +836,22 @@ namespace WPFSparkClient.NET46
         {
             SplitViewMenu.Width = GetColumnZeroWidth();
             CurrentAppMode = AppMode.SparkWindow;
-            AppTitle = Enum.GetName(typeof (AppMode), CurrentAppMode);
+            //AppTitle = Enum.GetName(typeof(AppMode), CurrentAppMode);
+
+            //获取其描述 更加直观
+            string desc = CurrentAppMode.GetAttributeOfType<DescriptionAttribute>().Description;
+            AppTitle = desc;
         }
 
         private void OnFluidPivotPanel(object sender, RoutedEventArgs e)
         {
             SplitViewMenu.Width = GetColumnZeroWidth();
             CurrentAppMode = AppMode.FluidPivotPanel;
-            AppTitle = Enum.GetName(typeof (AppMode), CurrentAppMode);
+            //AppTitle = Enum.GetName(typeof(AppMode), CurrentAppMode);
+
+            //获取其描述 更加直观
+            string desc = CurrentAppMode.GetAttributeOfType<DescriptionAttribute>().Description;
+            AppTitle = desc;
         }
 
         private void OnFluidProgressBar(object sender, RoutedEventArgs e)
@@ -783,12 +861,16 @@ namespace WPFSparkClient.NET46
 
             SplitViewMenu.Width = GetColumnZeroWidth();
             CurrentAppMode = AppMode.FluidProgressBar;
-            AppTitle = Enum.GetName(typeof (AppMode), CurrentAppMode);
+            //AppTitle = Enum.GetName(typeof(AppMode), CurrentAppMode);
+
+            //获取其描述 更加直观
+            string desc = CurrentAppMode.GetAttributeOfType<DescriptionAttribute>().Description;
+            AppTitle = desc;
         }
 
         private void OnHideProgressBar(object sender, RoutedEventArgs e)
         {
-            // Hide the progress bars so that they do not 
+            // Hide the progress bars so that they do not
             // consume CPU when not visible
             ProgressBarA.Visibility = Visibility.Collapsed;
             ProgressBarB.Visibility = Visibility.Collapsed;
@@ -798,9 +880,13 @@ namespace WPFSparkClient.NET46
         {
             SplitViewMenu.Width = GetColumnZeroWidth();
             CurrentAppMode = AppMode.FluidStatusBar;
-            AppTitle = Enum.GetName(typeof (AppMode), CurrentAppMode);
+            //AppTitle = Enum.GetName(typeof(AppMode), CurrentAppMode);
+
+            //获取其描述 更加直观
+            string desc = CurrentAppMode.GetAttributeOfType<DescriptionAttribute>().Description;
+            AppTitle = desc;
         }
 
-        #endregion
+        #endregion SplitView Menu
     }
 }
