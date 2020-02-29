@@ -22,7 +22,15 @@ namespace WPFSparkClient
         /// <typeparam name="T">The type of the attribute you want to retrieve</typeparam>
         /// <param name="enumVal">The enum value</param>
         /// <returns>The attribute of type T that exists on the enum value</returns>
-        /// <example>string desc = myEnumVariable.GetAttributeOfType<DescriptionAttribute>().Description;</example>
+        /// <remarks>
+        /// <para>Using Example:</para>
+        /// <para>
+        /// string desc = myEnumVariable.GetAttributeOfType<see>
+        ///     <cref>&amp;lt;DescriptionAttribute&amp;gt;</cref>
+        /// </see>
+        /// .Description();
+        /// </para>
+        /// </remarks>
         public static T GetAttributeOfType<T>(this Enum enumVal) where T : System.Attribute
         {
             var type = enumVal.GetType();
