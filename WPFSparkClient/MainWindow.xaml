@@ -18,7 +18,7 @@
                           RenderingBias="Quality"></DropShadowEffect>
     </wpfspark:SparkWindow.TitleEffect>
     <wpfspark:SparkWindow.TitleImage>
-        <Image Source="/WPFSparkClient.NET46;component/Resources/Images/wpfspark.png"
+        <Image Source="Resources/Images/wpfspark.png"
                Width="24"
                Height="24"
                HorizontalAlignment="Center"
@@ -60,7 +60,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"></Border>
         <Image Grid.Column="1"
-               Source="/WPFSparkClient.NET46;component/Resources/Images/wpfspark_title_512x128.png"
+               Source="Resources/Images/wpfspark_title_512x128.png"
                Width="512"
                Height="128"
                HorizontalAlignment="Right"
@@ -231,7 +231,7 @@
                                    Grid.Column="1"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Style="{StaticResource 
+                                   Style="{StaticResource
                 {ComponentResourceKey TypeInTargetAssembly=wpfspark:ToggleSwitch, ResourceId=ToggleSwitch.UWP.Dark.Style}}" />
 
             <!-- iOS Styles -->
